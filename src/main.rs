@@ -216,7 +216,6 @@ pub fn main() {
     let mut cpiece_rot = rand::random::<u8>()%4;
 
     let mut score = 0u32;
-    let mut score_dsp = 0u32;
     let mut cmprows = 0u32;
     let mut multi = 1u32;
     let mut multi_reset_timer = 0u32;
@@ -242,7 +241,7 @@ pub fn main() {
                             for i in (0..cells.len()) {
                                 cells[i] = 0u8;
                             }
-                            score = 0u32; score_dsp = 0u32; cmprows = 0u32; multi = 1u32;
+                            score = 0u32; cmprows = 0u32; multi = 1u32;
                             cpiece_type = rand::random::<u8>()%7;
                             cpiece_col = rand::random::<u8>()%cell_colors.len()as u8;
                             cpiece_pos = Point::new(grid_width/2, 3);
@@ -350,15 +349,12 @@ pub fn main() {
         if multi > 1 && multi_reset_timer >= 10000u32 { multi = 1u32; score_changed = true; multi_reset_timer = 0; }
         apply_gravity(&mut cells);
 
-        if score != score_dsp {
-            score_dsp += if score > score_dsp { 1 } else { -1 };
-        }
 
-        if fr > 0  || score_changed || score != score_dsp {
+        if fr > 0  || score_changed {
             text_tex = renderer.create_texture_from_surface(
                     &fnt.render_str_blended(
                         format!("Score: {} [x{} bonus]",
-                            score_dsp, multi).as_slice(),
+                            score, multi).as_slice(),
                         Color::RGBA(200,200,200,255)).ok().unwrap()
                 ).ok().unwrap();
         }
