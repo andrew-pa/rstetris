@@ -1,0 +1,9 @@
+[package]
+name = "tetris"
+version = "0.1.0"
+authors = ["s-apalmer"]
+
+[dependencies]
+sdl2 = ">=0.2"
+sdl2_ttf = ">=0.2"
+rand = ">=0.3"
